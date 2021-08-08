@@ -1,23 +1,44 @@
+import org.junit.Assert;
+import org.junit.Test;
 
-public class MoodAnalyserTest{
+public class MoodAnalyserTest {
     @Test
-       	public void givenMessage_whenSad_shouldReturnSad(){
-       	MoodAnalyser moodAnalyser = new MoodAnalyser();
-       	Assert.assertEquals("SAD", moodAnalyser.analyseMood("I am in a sad mood."));
+    public void givenMessage_whenSad_shouldReturnSad(){
+        MoodAnalyser moodAnalyser = new MoodAnalyser("I am in a sad mood.");
+        try{
+            Assert.assertEquals("SAD", moodAnalyser.analyseMood());
+        }catch(MoodAnalysisException e){
+            System.out.println(e);
+        }
     }
 
     @Test
-    	public void givenMessage_whenHappy_shouldReturnHappy(){
-        MoodAnalyser moodAnalyser = new MoodAnalyser();
-        Assert.assertEquals("HAPPY", moodAnalyser.analyseMood("I am not in the mood."));
+    public void givenMessage_whenHappy_shouldReturnHappy(){
+        MoodAnalyser moodAnalyser = new MoodAnalyser("I am in a Happy mood.");
+        try{
+            Assert.assertEquals("HAPPY", moodAnalyser.analyseMood());
+        }catch(MoodAnalysisException e){
+            System.out.println(e);
+        }
     }
 
-   @Test
-    	public void givenMessage_whenNull_shouldReturnHappy() {
-        String mood = MoodAnalyser.MoodAnalyser(null);
-        System.out.println(mood);
-        mood = MoodAnalyser.MoodAnalyser();
-        System.out.println(mood);
-        Assert.assertEquals("HAPPY", mood);
+    @Test
+    public void givenMessage_whenNull_shouldThrowException() {
+        MoodAnalyser moodAnalyser = new MoodAnalyser(null);
+        try{
+           moodAnalyser.analyseMood();
+        }catch(MoodAnalysisException e){
+            Assert.assertEquals(MoodAnalysisException.ExceptionType.NULL, e.type);
+        }
+    }
+
+    @Test
+    public void givenMessage_whenEmpty_shouldThrowException() {
+        MoodAnalyser moodAnalyser = new MoodAnalyser("");
+        try{
+            moodAnalyser.analyseMood();
+        }catch(MoodAnalysisException e){
+            Assert.assertEquals(MoodAnalysisException.ExceptionType.EMPTY, e.type);
+        }
     }
 }
